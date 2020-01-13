@@ -1,0 +1,1 @@
+configuration of application put here, read by require('config')
