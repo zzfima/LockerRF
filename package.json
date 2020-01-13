@@ -1,0 +1,22 @@
+{
+  "name": "lockerrf",
+  "version": "1.0.0",
+  "description": "Locker service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zfima/LockerRF.git"
+  },
+  "keywords": [
+    "locking"
+  ],
+  "author": "Efim Zabarsky <zzfima@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zfima/LockerRF/issues"
+  },
+  "homepage": "https://github.com/zfima/LockerRF#readme"
+}
