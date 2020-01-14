@@ -30,4 +30,35 @@ paths:
           schema:
             type: string
             example: Version not found
-      x-swagger-router-controller: "LockerWirings"
+      x-swagger-router-controller: "LockerController"
+  /TryResourceLock:
+    post:
+      tags:
+        - "TryResourceLock"
+      summary: "Try lock resource by ID"
+      description: "Try lock resource by ID"
+      operationId: "TryResourceLock"  
+      produces:
+        - application/json   
+      parameters:
+      - in: "formData"
+        name: "resourceID"
+        description: "ID of rersource which try to lock"
+        type: string
+        required: true
+      responses:
+        200:
+          description: "Succesefully got lock resource by ID"
+          schema:
+            type: object
+            example: "TBD"
+            properties:
+              tokenID:
+                type: "string"
+                example: 32321321-4234234-8989989
+        500:
+          description: "Can not get lock resource by ID"
+          schema:
+            type: "string"
+            example: Failed
+      x-swagger-router-controller: "LockerController"
