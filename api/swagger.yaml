@@ -23,7 +23,7 @@ paths:
         200:
           description: "Succesefully got version of Locking service"
           schema:
-            type: string
+            type: "string"
             example: 1.1.1
         500:
           description: "Can not get version of Locking service"
