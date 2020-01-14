@@ -1,0 +1,15 @@
+{
+    "version": "1.0.0",
+    "swagger": {
+        "host": "http://localhost:3004",
+        "defenitions": "http://localhost:8081/defenitions.yaml",
+        "validate": "true",
+        "port": "3004"
+    },
+    "server": {
+        "port": "3004"
+    },
+    "log": {
+        "level": "debug"
+    }
+}

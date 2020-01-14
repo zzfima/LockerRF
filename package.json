@@ -1,10 +1,11 @@
 {
-  "name": "lockerrf",
+  "name": "locker_service",
   "version": "1.0.0",
   "description": "Locker service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,12 @@
     "nodemon": "^2.0.2"
   },
   "dependencies": {
-    "config": "^3.2.4"
+    "config": "^3.2.4",
+    "connect": "^3.7.0",
+    "cors": "^2.8.5",
+    "js-yaml": "^3.13.1",
+    "kontainer-di": "^0.9.9",
+    "swagger-router": "^0.7.4",
+    "swagger-tools": "^0.10.4"
   }
 }

@@ -1,0 +1,33 @@
+swagger: "2.0"
+info:
+  description: "This is a Locking resources service."
+  version: "1.0.0"
+  title: "Swagger Lock service"
+  termsOfService: "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html"
+  contact:
+    email: "zzfima@gmail.com"
+host: "localhost:3004"
+basePath: "/"
+x-config-validation-key: "true"
+paths:
+  /GetVersion:
+    get:
+      tags:
+        - "GetVersion"
+      summary: "Get version of Locking service"
+      description: "Get version of Locking service"
+      operationId: "GetVersion"  
+      produces:
+        - application/json   
+      responses:
+        200:
+          description: "Succesefully got version of Locking service"
+          schema:
+            type: string
+            example: 1.1.1
+        500:
+          description: "Can not get version of Locking service"
+          schema:
+            type: string
+            example: Version not found
+      x-swagger-router-controller: "LockerWirings"
