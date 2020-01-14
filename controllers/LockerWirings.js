@@ -4,6 +4,6 @@ module.exports.GetVersion = function(req, res){
     let version = container.get('versionProvider')
     let answer = version.GetVersion()
 
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(answer)) 
 }
