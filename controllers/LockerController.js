@@ -17,9 +17,8 @@ module.exports.GetVersion = function(req, res){
  */
 module.exports.TryResourceLock = function(req, res){
     let container = require('../containerConfig')
-    let version = container.get('versionProvider')
-    let answer = version.GetVersion()
-
+    
+    let requestID = req.body.resourceID
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify('LockSuccess')) 
+    res.end(JSON.stringify('LockSuccess'))
 }

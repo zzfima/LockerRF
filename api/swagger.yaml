@@ -38,6 +38,8 @@ paths:
       summary: "Try lock resource by ID"
       description: "Try lock resource by ID"
       operationId: "TryResourceLock"  
+      consumes:
+        - application/x-www-form-urlencoded
       produces:
         - application/json   
       parameters:
