@@ -9,7 +9,8 @@ module.exports = class VersionProvider {
     /**
      * Return Lock service version
      */
-    get GetLockVersion() {
-        return this._version
+    GetLockVersion(res) {
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(this._version))
     }
 }
