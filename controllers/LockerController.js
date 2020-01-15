@@ -16,10 +16,10 @@ module.exports.GetVersion = function (req, res) {
 }
 
 /**
- * Try get lock on resource by Id, if succesfull returns LockSuccess if not returns LockFail
+ * Try lock resource by resourceID
  */
 module.exports.TryResourceLock = function (req, res) {
-    let resourceID = req.body.resourceID
+    let resourceID = GetResourceID(req)
 
     //Check if current resourceID exists in Redis
     redisClient.exists(resourceID, (err, exists) => {
@@ -46,10 +46,54 @@ module.exports.TryResourceLock = function (req, res) {
     })
 }
 
+/**
+ * Try unlock resource by resourceID
+ */
+module.exports.TryResourceUnlock = function (req, res) {
+    let resourceID = GetResourceID(req)
+
+    //Check if current resourceID exists in Redis
+    redisClient.exists(resourceID, (err, exists) => {
+        //resouce locked, try to unlock it
+        if (exists == true) {
+            redisClient.del(resourceID, (redisError) => {
+                //success remove from redis pair <resourceID, uuid>
+                if (redisError == null) {
+                    _SetMessageUnlockSuccess(resourceID, res)
+                }
+                //unsuccess remove from redis
+                else {
+                    _SetMessageWriteToRedisFailed(resourceID, res, redisError)
+                }
+            })
+            return
+        }
+        else {
+            _SetMessageUnlockFailed(resourceID, res)
+        }
+    })
+}
+
+function GetResourceID(request) {
+    return request.body.resourceID
+}
+
 function _SetMessageLockSuccess(resourceID, resultToSetMessage) {
     resultToSetMessage.statusCode = 200
     resultToSetMessage.setHeader('Content-Type', 'application/json')
     resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} succesefully locked`))
+}
+
+function _SetMessageUnlockSuccess(resourceID, resultToSetMessage) {
+    resultToSetMessage.statusCode = 200
+    resultToSetMessage.setHeader('Content-Type', 'application/json')
+    resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} succesefully unlocked`))
+}
+
+function _SetMessageUnlockFailed(resourceID, resultToSetMessage) {
+    resultToSetMessage.statusCode = 200
+    resultToSetMessage.setHeader('Content-Type', 'application/json')
+    resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} can not be found in Redis. Please, try later`))
 }
 
 function _SetMessageLockFailed(resourceID, resultToSetMessage) {
@@ -61,5 +105,5 @@ function _SetMessageLockFailed(resourceID, resultToSetMessage) {
 function _SetMessageWriteToRedisFailed(resourceID, resultToSetMessage, error) {
     resultToSetMessage.statusCode = 500
     resultToSetMessage.setHeader('Content-Type', 'application/json')
-    resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} can not be written to Redis, despite of its not locked. Redis Error code: ${error}. Please, try later`))
+    resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} can not be changed in Redis. Redis Error code: ${error}. Please, try later`))
 }

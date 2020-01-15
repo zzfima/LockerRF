@@ -53,10 +53,38 @@ paths:
           description: "Succesefully got lock resource by ID"
           schema:
             type: "string"
-            format: "uuid"
             example: 78aea7e5-97c3-4e77-92ea-d40d6a3a4439
         500:
           description: "Can not get lock resource by ID"
+          schema:
+            type: "string"
+            example: Failed
+      x-swagger-router-controller: "LockerController"
+  /TryResourceUnlock:
+    post:
+      tags:
+        - "TryResourceUnlock"
+      summary: "Try unlock resource by ID"
+      description: "Try unlock resource by ID"
+      operationId: "TryResourceUnlock"  
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json   
+      parameters:
+      - in: "formData"
+        name: "resourceID"
+        description: "ID of rersource which try to unlock"
+        type: string
+        required: true
+      responses:
+        200:
+          description: "Succesefully unlock resource by ID"
+          schema:
+            type: "string"
+            example: 78aea7e5-97c3-4e77-92ea-d40d6a3a4439
+        500:
+          description: "Can not unlock resource by ID"
           schema:
             type: "string"
             example: Failed
