@@ -2,6 +2,7 @@
 'use strict'
 
 let container = require('../containerConfig')
+let lockingManager = container.get('lockingManager')
 let redis = require('redis')
 let config = require('config')
 let redisClient = redis.createClient()
@@ -21,31 +22,7 @@ exports.GetVersion = function (req, res) {
  * Try lock resource by resourceID
  */
 exports.TryResourceLock = function (req, res) {
-    let resourceID = GetResourceID(req)
-
-    //Check if current resourceID exists in Redis
-    redisClient.exists(resourceID, (err, exists) => {
-        //resouce already locked, failed to lock
-        if (exists == true) {
-            _SetMessageLockFailed(resourceID, res)
-            return
-        }
-        //resouce not locked, lets try lock it
-        else {
-            let uuid = uuid_randomizer()
-
-            redisClient.set(resourceID, uuid.toString(), (redisError) => {
-                //success write to redis pair <resourceID, uuid>
-                if (redisError == null) {
-                    _SetMessageLockSuccess(resourceID, res)
-                }
-                //unsuccess write to redis
-                else {
-                    _SetMessageWriteToRedisFailed(resourceID, res, redisError)
-                }
-            })
-        }
-    })
+    lockingManager.TryResourceLock(req, res)
 }
 
 /**
