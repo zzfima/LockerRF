@@ -8,7 +8,10 @@ let versionProvider = container.get('versionProvider')
  * Returns Lock service version
  */
 exports.GetVersion = function (req, res) {
-    versionProvider.GetLockVersion(res)
+    let ver = versionProvider.GetVersion()
+
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(ver))
 }
 
 /**

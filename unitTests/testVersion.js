@@ -1,10 +1,9 @@
 var assert = require('assert');
+let container = require('../containerConfig')
 let versionProvider = container.get('versionProvider')
 
-
-describe('Get Version', function () {
-    it('should return -1 when the value is not present', function () {
-        versionProvider.GetLockVersion(res)
-        assert.equal(-1, -1)
+describe('GetVersion', function () {
+    it('GetVersion', () => {
+        assert.equal(versionProvider.GetVersion(), '1.3.0')
     })
 })

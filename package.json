@@ -4,7 +4,7 @@
   "description": "Locker service",
   "main": "index.js",
   "scripts": {
-    "test": "unitTests/mocha",
+    "test": "mocha ./unitTests/",
     "server": "nodemon index.js"
   },
   "repository": {
