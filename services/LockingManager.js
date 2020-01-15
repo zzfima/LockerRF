@@ -10,9 +10,7 @@ module.exports = class LockingManager {
     /**
      * Try lock resource by resourceID
      */
-    TryResourceLock(req, res) {
-        let resourceID = this.GetResourceID(req)
-
+    TryResourceLock(resourceID, res) {
         //Check if current resourceID exists in Redis
         this._redisClient.exists(resourceID, (err, exists) => {
             //resouce already locked, failed to lock
@@ -41,9 +39,7 @@ module.exports = class LockingManager {
     /**
      * Try unlock resource by resourceID
      */
-    TryResourceUnlock(req, res) {
-        let resourceID = this.GetResourceID(req)
-
+    TryResourceUnlock(resourceID, res) {
         //Check if current resourceID exists in Redis
         this._redisClient.exists(resourceID, (err, exists) => {
             //resouce locked, try to unlock it
@@ -64,10 +60,6 @@ module.exports = class LockingManager {
                 this._SetMessageUnlockFailed(resourceID, res)
             }
         })
-    }
-
-    GetResourceID(request) {
-        return request.body.resourceID
     }
 
     _SetMessageLockSuccess(resourceID, resultToSetMessage) {

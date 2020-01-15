@@ -13,12 +13,14 @@ module.exports.GetVersion = function (req, res) {
  * Try lock resource by resourceID
  */
 module.exports.TryResourceLock = function (req, res) {
-    lockingControllerService.TryResourceLock(req, res)
+    let resourceID = req.body.resourceID
+    lockingControllerService.TryResourceLock(resourceID, res)
 }
 
 /**
  * Try unlock resource by resourceID
  */
 module.exports.TryResourceUnlock = function (req, res) {
-    lockingControllerService.TryResourceUnlock(req, res)
+    let resourceID = req.body.resourceID
+    lockingControllerService.TryResourceUnlock(resourceID, res)
 }
