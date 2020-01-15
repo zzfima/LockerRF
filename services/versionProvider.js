@@ -2,9 +2,16 @@
 
 const config = require('config')
 
-/**
- * Return Lock service version
- */
-exports.GetVersion = function(){
-    return config.get('version')
+module.exports = class VersionProvider {
+    constructor() {
+        this._config = require('config')
+        this._version = config.get('version')
+    }
+
+    /**
+     * Return Lock service version
+     */
+    GetLockVersion() {
+        return this._version
+    }
 }
