@@ -52,12 +52,9 @@ paths:
         200:
           description: "Succesefully got lock resource by ID"
           schema:
-            type: object
-            example: "TBD"
-            properties:
-              tokenID:
-                type: "string"
-                example: 32321321-4234234-8989989
+            type: "string"
+            format: "uuid"
+            example: 78aea7e5-97c3-4e77-92ea-d40d6a3a4439
         500:
           description: "Can not get lock resource by ID"
           schema:
