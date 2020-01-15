@@ -1,4 +1,7 @@
 'use strict'
+
+
+
 let redis = require('redis')
 let config = require('config')
 let redisClient = redis.createClient()
