@@ -11,7 +11,7 @@ let uuid_randomizer = require('uuid/v4')
  * Returns Lock service version
  */
 exports.GetVersion = function (req, res) {
-    let answer = container.get('versionProvider').GetLockVersion()
+    let answer = container.get('versionProvider').GetLockVersion
 
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(answer))
