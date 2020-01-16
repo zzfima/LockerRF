@@ -16,13 +16,16 @@ describe('Lock resource ID aabb56785678', function () {
 
         const unlockFunction = (req) => {
             const callback = result => {
-                assert.equal(result.msg, '500')
+                assert.equal(result.msg, 'Requested Resource ID: aabb56785678 succesefully unlocked')
+                assert.equal(result.statusCode, '200')
             }
 
             lockingManager.TryResourceUnlock(callback, req)
         }
 
         lockFunction('aabb56785678')
-        unlockFunction('aabb56785678')
+        setTimeout(() => {
+            unlockFunction('aabb56785678'), 1000
+        })
     })
 })
