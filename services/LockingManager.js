@@ -8,13 +8,13 @@ module.exports = class LockingManager {
     /**
      * Try lock resource by resourceID
      */
-    TryResourceLock = (callback, resourceID, res) => {
+    TryResourceLock = (callback, resourceID) => {
         //Check if current resourceID exists in Redis
         this._redisClient.exists(resourceID, (err, exists) => {
             //resouce already locked, failed to lock
             if (exists == true) {
                 //this._SetMessageLockFailed(resourceID, res)
-                let answer = this.SetMessageLockFailed(resourceID)
+                let answer = this.CreateMessageLockFailed(resourceID)
                 callback(answer)
                 return
             }
@@ -25,12 +25,12 @@ module.exports = class LockingManager {
                 this._redisClient.set(resourceID, uuid.toString(), (redisError) => {
                     //success write to redis pair <resourceID, uuid>
                     if (redisError == null) {
-                        let answer = this.SetMessageLockSuccess(resourceID)
+                        let answer = this.CreateMessageLockSuccess(resourceID)
                         callback(answer)
                     }
                     //unsuccess write to redis
                     else {
-                        let answer = this.SetMessageWriteToRedisFailed(resourceID, redisError)
+                        let answer = this.CreateMessageWriteToRedisFailed(resourceID, redisError)
                         callback(answer)
                     }
                 })
@@ -41,7 +41,7 @@ module.exports = class LockingManager {
     /**
      * Try unlock resource by resourceID
      */
-    TryResourceUnlock(resourceID, res) {
+    TryResourceUnlock = (callback, resourceID) => {
         //Check if current resourceID exists in Redis
         this._redisClient.exists(resourceID, (err, exists) => {
             //resouce locked, try to unlock it
@@ -49,50 +49,53 @@ module.exports = class LockingManager {
                 this._redisClient.del(resourceID, (redisError) => {
                     //success remove from redis pair <resourceID, uuid>
                     if (redisError == null) {
-                        this._SetMessageUnlockSuccess(resourceID, res)
+                        let answer = this.CreateMessageUnlockSuccess(resourceID)
+                        callback(answer)
                     }
                     //unsuccess remove from redis
                     else {
-                        this._SetMessageWriteToRedisFailed(resourceID, res, redisError)
+                        let answer = this.CreateMessageWriteToRedisFailed(resourceID, redisError)
+                        callback(answer)
                     }
                 })
                 return
             }
             else {
-                this._SetMessageUnlockFailed(resourceID, res)
+                let answer = this.CreateMessageUnlockFailed(resourceID)
+                callback(answer)
             }
         })
     }
 
     //Locking 
-    SetMessageLockSuccess(resourceID) {
+    CreateMessageLockSuccess(resourceID) {
         let statusCode = 200
         let msg = `Requested Resource ID: ${resourceID} succesefully locked`
         return { statusCode, msg }
     }
 
-    SetMessageLockFailed(resourceID) {
+    CreateMessageLockFailed(resourceID) {
         let statusCode = 500
         let msg = `Requested Resource ID: ${resourceID} already locked by other applicant. Please, try later`
         return { statusCode, msg }
     }
 
-    SetMessageWriteToRedisFailed(resourceID, error) {
+    CreateMessageWriteToRedisFailed(resourceID, error) {
         let statusCode = 500
         let msg = `Requested Resource ID: ${resourceID} can not be changed in Redis. Redis Error code: ${error}. Please, try later`
         return { statusCode, msg }
     }
 
     //unlocking
-    _SetMessageUnlockSuccess(resourceID, resultToSetMessage) {
-        resultToSetMessage.statusCode = 200
-        resultToSetMessage.setHeader('Content-Type', 'application/json')
-        resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} succesefully unlocked`))
+    CreateMessageUnlockSuccess(resourceID) {
+        let statusCode = 200
+        let msg = `Requested Resource ID: ${resourceID} succesefully unlocked`
+        return { statusCode, msg }
     }
 
-    _SetMessageUnlockFailed(resourceID, resultToSetMessage) {
-        resultToSetMessage.statusCode = 200
-        resultToSetMessage.setHeader('Content-Type', 'application/json')
-        resultToSetMessage.end(JSON.stringify(`Requested Resource ID: ${resourceID} can not be found in Redis. Please, try later`))
+    CreateMessageUnlockFailed(resourceID) {
+        let statusCode = 500
+        let msg = `Requested Resource ID: ${resourceID} can not be found in Redis. Please, try later`
+        return { statusCode, msg }
     }
 }

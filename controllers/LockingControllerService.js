@@ -26,18 +26,27 @@ const lockFunction = (req, res) => {
         SendMessageToSwagger(result, res)
     }
 
-    lockingManager.TryResourceLock(callback, req, res)
+    lockingManager.TryResourceLock(callback, req)
 }
 
 /**
  * Try unlock resource by resourceID
  */
-module.exports.TryResourceUnlock = function (req, res) {
-    lockingManager.TryResourceUnlock(req, res)
+exports.TryResourceUnlock = function (req, res) {
+    unlockFunction(req, res)
 }
 
-function SendMessageToSwagger(obj, resultToSetMessage){
-        resultToSetMessage.statusCode = obj.statusCode
-        resultToSetMessage.setHeader('Content-Type', 'application/json')
-        resultToSetMessage.end(JSON.stringify(obj.msg))
+const unlockFunction = (req, res) => {
+    const callback = result => {
+        SendMessageToSwagger(result, res)
+    }
+
+    lockingManager.TryResourceUnlock(callback, req)
+}
+
+
+function SendMessageToSwagger(obj, resultToSetMessage) {
+    resultToSetMessage.statusCode = obj.statusCode
+    resultToSetMessage.setHeader('Content-Type', 'application/json')
+    resultToSetMessage.end(JSON.stringify(obj.msg))
 }
