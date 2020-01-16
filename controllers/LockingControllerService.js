@@ -18,7 +18,15 @@ exports.GetVersion = function (req, res) {
  * Try lock resource by resourceID
  */
 exports.TryResourceLock = function (req, res) {
-    lockingManager.TryResourceLock(req, res)
+    lockFunction(req, res)
+}
+
+const lockFunction = (req, res) => {
+    const callback = result => {
+        SendMessageToSwagger(result, res)
+    }
+
+    lockingManager.TryResourceLock(callback, req, res)
 }
 
 /**
@@ -26,4 +34,10 @@ exports.TryResourceLock = function (req, res) {
  */
 module.exports.TryResourceUnlock = function (req, res) {
     lockingManager.TryResourceUnlock(req, res)
+}
+
+function SendMessageToSwagger(obj, resultToSetMessage){
+        resultToSetMessage.statusCode = obj.statusCode
+        resultToSetMessage.setHeader('Content-Type', 'application/json')
+        resultToSetMessage.end(JSON.stringify(obj.msg))
 }
