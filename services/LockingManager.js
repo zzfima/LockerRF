@@ -2,7 +2,7 @@
 
 module.exports = class LockingManager {
     constructor() {
-        let container = require('../conteiners/containerConfig')
+        let container = require('../conteinersConfiguration/containerConfig')
         let redis = require('redis')
         this._redisClient = redis.createClient()
         this._uuid_randomizer = require('uuid/v4')

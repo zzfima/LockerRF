@@ -1,5 +1,5 @@
 var assert = require('assert');
-let container = require('../conteiners/containerConfig')
+let container = require('../conteinersConfiguration/containerConfig')
 let versionProvider = container.get('versionProvider')
 
 describe('Get Version 1.3.0', function () {
