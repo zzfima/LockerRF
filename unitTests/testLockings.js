@@ -25,7 +25,7 @@ describe('Lock resource ID aabb56785678', function () {
 
         lockFunction('aabb56785678')
         setTimeout(() => {
-            unlockFunction('aabb56785678'), 1000
+            unlockFunction('aabb56785678'), 100
         })
     })
 })
