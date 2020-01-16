@@ -1,5 +1,5 @@
 var assert = require('assert');
-let container = require('../containerConfig')
+let container = require('../conteiners/containerConfig')
 let lockingManager = container.get('lockingManager')
 
 describe('Lock resource ID aabb56785678', function () {

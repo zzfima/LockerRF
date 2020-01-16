@@ -1,6 +1,6 @@
 'use strict'
 
-let container = require('../containerConfig')
+let container = require('../conteiners/containerConfig')
 let lockingManager = container.get('lockingManager')
 let versionProvider = container.get('versionProvider')
 
