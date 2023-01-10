@@ -26,7 +26,7 @@
     "redis-mock": "^0.47.0"
   },
   "dependencies": {
-    "config": "^3.2.4",
+    "config": "^3.3.8",
     "connect": "^3.7.0",
     "cors": "^2.8.5",
     "js-yaml": "^3.13.1",
