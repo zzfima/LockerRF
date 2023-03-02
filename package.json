@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/zfima/LockerRF#readme",
   "devDependencies": {
-    "mocha": "^7.0.0",
+    "mocha": "^7.2.0",
     "nodemon": "^2.0.2",
     "redis-mock": "^0.47.0"
   },
